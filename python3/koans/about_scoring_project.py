@@ -36,15 +36,30 @@ def score(dice):
     if dice == []:
         return 0
     total = 0
-    fives = sum([50 for i in dice if i == 5])
-    total += fives
-    ones_count = len([i for i in dice if i == 1])
-    if ones_count == 3:
-        total += 1000
-        ones_count -= 3
-    total += ones_count * 100
+    results = make_dict(dice)
 
+    for digit in results:
+        count = results[digit]
+        if count >= 3:
+            if digit == 1:
+                total += 1000
+            else:
+                total += 100 * digit
+            count -= 3
+        if digit == 1:
+            total += 100 * count
+        if digit == 5:
+            total += 50 * count
     return total
+
+
+def make_dict(dice):
+    results = {}
+    for digit in dice:
+        if digit not in results:
+            results[digit] = 0
+        results[digit] += 1
+    return results
 
 
 class AboutScoringProject(Koan):
